@@ -4,17 +4,19 @@
 //4. Обновить
 //5. Удалить
 
-const router = require("express").Router();
-const DriversController = require("../controllers/DriversController");
+const authMiddleware = require('../midllewares/authMiddleware');
 
-router.post("/drivers", DriversController.save);
+const router = require('express').Router();
+const DriversController = require('../controllers/DriversController');
 
-router.get("/drivers", DriversController.getAll);
+router.post('/drivers', authMiddleware, DriversController.save);
 
-router.get("/drivers/:id", DriversController.getOne);
+router.get('/drivers', DriversController.getAll);
 
-router.patch("/drivers/:id", DriversController.update);
+router.get('/drivers/:id', DriversController.getOne);
 
-router.delete("/drivers/:id", DriversController.remove);
+router.patch('/drivers/:id', DriversController.update);
+
+router.delete('/drivers/:id', DriversController.remove);
 
 module.exports = router;

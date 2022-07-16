@@ -1,30 +1,27 @@
-console.log("Hi backend!!!");
-require("colors");
-const dotenv = require("dotenv");
-const path = require("path");
-const envPath = path.join(__dirname, "..", "config", ".env");
+console.log('Hi backend!!!');
+require('colors');
+const dotenv = require('dotenv');
+const path = require('path');
+const envPath = path.join(__dirname, '..', 'config', '.env');
 dotenv.config({ path: envPath });
 
-const connectDB = require("../config/db");
+const connectDB = require('../config/db');
 
-const express = require("express");
+const express = require('express');
 const app = express();
 
 app.use(express.json());
-app.use(
-  express.urlencoded({
-    extended: false,
-  })
-);
+app.use(express.urlencoded({ extended: false }));
 
-const { driversRoutes } = require("./routes");
+const { driversRoutes, authRoutes } = require('./routes');
 
-const api = require("../config/version");
+const api = require('../config/version');
 // add routes
 app.use(api.version.path, driversRoutes);
+app.use(api.version.path, authRoutes);
 
 app.use((req, res) => {
-  res.status(404).send("Not found");
+  res.status(404).send('Not found');
 });
 
 const { PORT } = process.env;
